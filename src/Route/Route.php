@@ -36,7 +36,7 @@ class Route implements RouteContract
 		}
 
 		if (is_array($concrete)) {
-			$controller = $concrete[0];
+			$controller = new $concrete[0];
 			$method = $concrete[1];
 
 			call_user_func([$controller, $method]);
