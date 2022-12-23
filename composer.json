@@ -1,0 +1,18 @@
+{
+  "name": "ceceply/php-mvc",
+  "description": "The PHP MVC framework",
+  "license": "MIT",
+  "type": "library",
+  "autoload": {
+    "psr-4": {
+      "Ceceply\\Framework\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Adi Aryasuta",
+      "email": "adiaryasuta.dev@gmail.com"
+    }
+  ],
+  "require": {}
+}
