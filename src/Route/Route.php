@@ -27,6 +27,20 @@ class Route implements RouteContract
 
 		$concrete = $this->routes[$method][$uri];
 
-		$concrete();
+		if (!$concrete) {
+
+		}
+
+		if (is_callable($concrete)) {
+			$concrete();
+		}
+
+		if (is_array($concrete)) {
+			$controller = $concrete[0];
+			$method = $concrete[1];
+
+			call_user_func([$controller, $method]);
+		}
+
 	}
 }
