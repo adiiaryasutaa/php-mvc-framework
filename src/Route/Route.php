@@ -23,7 +23,7 @@ class Route implements RouteContract
 	public function resolve()
 	{
 		$method = $_SERVER['REQUEST_METHOD'];
-		$uri = $_SERVER['REQUEST_METHOD'];
+		$uri = $_SERVER['REQUEST_URI'];
 
 		$concrete = $this->routes[$method][$uri];
 
