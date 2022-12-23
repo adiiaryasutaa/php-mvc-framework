@@ -2,10 +2,10 @@
 
 namespace Ceceply\Framework;
 
+use Ceceply\Framework\Contract\ApplicationContract;
 use Ceceply\Framework\Route\Route;
-use Ceceply\Framework\View\View;
 
-class Application
+class Application implements ApplicationContract
 {
 	public Route $route;
 
