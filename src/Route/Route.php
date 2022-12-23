@@ -15,7 +15,7 @@ class Route implements RouteContract
 		$this->app = $app;
 	}
 
-	public function add(string $method, string $uri, callable $concrete)
+	public function add(string $method, string $uri, callable|array $concrete)
 	{
 		$this->routes[$method][$uri] = $concrete;
 	}
