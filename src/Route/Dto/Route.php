@@ -110,4 +110,12 @@ class Route
 
 		return $arguments;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getMethod(): string
+	{
+		return $this->method;
+	}
 }

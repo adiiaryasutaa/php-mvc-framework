@@ -18,8 +18,8 @@ class RouteCollection
 
 	public function getMatched(string $method, string $uri): ?Route
 	{
-		foreach ($this->routes[$method] as $route) {
-			if ($route->isMatched($uri)) {
+		foreach ($this->routes as $route) {
+			if ($route->getMethod() === $method && $route->isMatch($uri)) {
 				return $route;
 			}
 		}
