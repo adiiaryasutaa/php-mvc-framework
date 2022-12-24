@@ -3,15 +3,15 @@
 namespace Ceceply\Framework;
 
 use Ceceply\Framework\Contract\ApplicationContract;
-use Ceceply\Framework\Route\Route;
+use Ceceply\Framework\Route\Router;
 
 class Application implements ApplicationContract
 {
-	public Route $route;
+	public Router $route;
 
 	public function __construct()
 	{
-		$this->route = new Route($this);
+		$this->route = new Router($this);
 	}
 
 	public function start()
