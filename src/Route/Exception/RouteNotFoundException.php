@@ -2,7 +2,6 @@
 
 namespace Ceceply\Framework\Route\Exception;
 
-use Ceceply\Framework\Route\Dto\Route;
 use Exception;
 
 class RouteNotFoundException extends Exception
