@@ -6,6 +6,9 @@ use Ceceply\Framework\Route\Dto\Route;
 
 class RouteCollection
 {
+	/**
+	 * @var Route[]
+	 */
 	protected array $routes = [];
 
 	public function add(Route $route)
@@ -15,12 +18,20 @@ class RouteCollection
 
 	public function getMatched(string $method, string $uri): ?Route
 	{
-		foreach ($this->routes as $route) {
-			if ($route->method === $method && $route->uri === $uri) {
+		foreach ($this->routes[$method] as $route) {
+			if ($route->isMatched($uri)) {
 				return $route;
 			}
 		}
 
 		return null;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getRoutes(): array
+	{
+		return $this->routes;
 	}
 }

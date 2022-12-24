@@ -5,22 +5,26 @@ namespace Ceceply\Framework\Route;
 use Ceceply\Framework\Application;
 use Ceceply\Framework\Contract\Route\RouterContract;
 use Ceceply\Framework\Route\Dto\Route;
+use Ceceply\Framework\Route\Exception\BindingHasBeenDefinedException;
 use Ceceply\Framework\Route\Exception\RouteNotFoundException;
 
 class Router implements RouterContract
 {
 	protected Application $app;
 	protected RouteCollection $collection;
-	protected RouteActionResolver $resolver;
+	protected RouteActionResolver $actionResolver;
 
 	public function __construct(Application $app)
 	{
 		$this->app = $app;
 		$this->collection = new RouteCollection();
-		$this->resolver = new RouteActionResolver();
+		$this->actionResolver = new RouteActionResolver();
 	}
 
-	public function add(string $method, string $uri, callable|array $action)
+	/**
+	 * @throws BindingHasBeenDefinedException
+	 */
+	public function add(string $method, string $uri, callable|array $action): Route
 	{
 		$route = new Route($method, $uri, $action);
 
@@ -43,6 +47,8 @@ class Router implements RouterContract
 			throw new RouteNotFoundException($method, $uri);
 		}
 
-		return $this->resolver->resolve($route->action);
+		$parameters = $route->whichOneIsTheArguments($uri);
+
+		return $this->actionResolver->resolve($route->action, $parameters);
 	}
 }
