@@ -8,11 +8,18 @@
       "Ceceply\\Framework\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Ceceply\\Test": "tests/"
+    }
+  },
   "authors": [
     {
       "name": "Adi Aryasuta",
       "email": "adiaryasuta.dev@gmail.com"
     }
   ],
-  "require": {}
+  "require-dev": {
+    "phpunit/phpunit": "9.5"
+  }
 }
