@@ -1,10 +1,10 @@
 <?php
 
-namespace Ceceply\Framework\Route\Exception;
+namespace Ceceply\Framework\Routing\Exception;
 
 use Exception;
 
-class BindingHasBeenDefinedException extends Exception
+class ParameterHasSameName extends Exception
 {
 	protected string $name;
 

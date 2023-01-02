@@ -1,6 +1,6 @@
 <?php
 
-namespace Ceceply\Framework\Route\Exception;
+namespace Ceceply\Framework\Routing\Exception;
 
 use Exception;
 

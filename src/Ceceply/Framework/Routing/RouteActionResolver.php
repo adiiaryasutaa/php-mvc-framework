@@ -1,6 +1,6 @@
 <?php
 
-namespace Ceceply\Framework\Route;
+namespace Ceceply\Framework\Routing;
 
 class RouteActionResolver
 {

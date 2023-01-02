@@ -1,25 +1,30 @@
 {
   "name": "ceceply/php-mvc",
   "description": "The PHP MVC framework",
-  "license": "MIT",
-  "type": "library",
-  "autoload": {
-    "psr-4": {
-      "Ceceply\\Framework\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Ceceply\\Test": "tests/"
-    }
-  },
   "authors": [
     {
       "name": "Adi Aryasuta",
       "email": "adiaryasuta.dev@gmail.com"
     }
   ],
+  "license": "MIT",
+  "type": "library",
+  "minimum-stability": "dev",
+  "prefer-stable": false,
+  "autoload": {
+    "files": [
+      "src/Ceceply/Framework/Support/function.php"
+    ],
+    "psr-4": {
+      "Ceceply\\Framework\\": "src/Ceceply/Framework/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Ceceply\\Test\\": "tests/Ceceply/Test"
+    }
+  },
   "require-dev": {
-    "phpunit/phpunit": "9.5"
+    "phpunit/phpunit": "10.0.x-dev"
   }
 }
