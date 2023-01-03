@@ -112,12 +112,14 @@ class Router implements RouterContract
 		}
 
 		if (is_array($route->action)) {
-			return;
-
-			// TODO: Resolve controller
+			$action = [new $route->action[0], $route->action[1]];
+		} else {
+			$action = $route->action;
 		}
 
-		$content = call_user_func_array($route->action, []);
+		$parameters = [];
+
+		$content = call_user_func_array($action, $parameters);
 
 		if (is_string($content)) {
 			$content = View::make($content);
