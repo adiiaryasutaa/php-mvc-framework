@@ -7,6 +7,7 @@ use Ceceply\Framework\Contract\Route\RouterContract;
 use Ceceply\Framework\Request\Request;
 use Ceceply\Framework\Routing\Exception\ParameterHasSameName;
 use Ceceply\Framework\Routing\Exception\RouteNotFoundException;
+use Ceceply\Framework\View\View;
 
 class Router implements RouterContract
 {
@@ -102,7 +103,7 @@ class Router implements RouterContract
 	 * @return void
 	 * @throws RouteNotFoundException
 	 */
-	public function resolve(string $method, string $uri)
+	public function resolve(string $method, string $uri): void
 	{
 		$route = $this->collection->get($method, $uri);
 
@@ -116,6 +117,16 @@ class Router implements RouterContract
 			// TODO: Resolve controller
 		}
 
-		echo call_user_func_array($route->action, []);
+		$content = call_user_func_array($route->action, []);
+
+		if (is_string($content)) {
+			$content = View::make($content);
+		}
+
+		/**
+		 * @var View $content
+		 */
+
+		$content->show();
 	}
 }
