@@ -7,6 +7,13 @@ use Ceceply\Framework\Routing\Exception\ParameterHasSameName;
 class Route
 {
 	/**
+	 * The name of the route
+	 *
+	 * @var string
+	 */
+	public string $name;
+
+	/**
 	 * The method of the route
 	 *
 	 * @var string
@@ -92,7 +99,7 @@ class Route
 	 * @param string $string
 	 * @return bool
 	 */
-	public function matches(string $string)
+	public function matches(string $string): bool
 	{
 		if ($this->hasParameters()) {
 			$pattern = $this->uri;
@@ -125,5 +132,22 @@ class Route
 	public function getMethod(): string
 	{
 		return $this->method;
+	}
+
+	/**
+	 * Route name getter and setter
+	 *
+	 * @param $name
+	 * @return string|$this
+	 */
+	public function name($name = null): string|Route
+	{
+		if (is_null($name)) {
+			return $this->name;
+		}
+
+		$this->name = $name;
+
+		return $this;
 	}
 }
