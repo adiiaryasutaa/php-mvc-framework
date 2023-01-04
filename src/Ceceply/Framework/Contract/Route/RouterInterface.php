@@ -2,7 +2,7 @@
 
 namespace Ceceply\Framework\Contract\Route;
 
-interface RouterContract
+interface RouterInterface
 {
 	public function addRoute(string $method, string $uri, callable|array $action);
 

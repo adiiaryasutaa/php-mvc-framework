@@ -2,7 +2,7 @@
 
 namespace Ceceply\Framework\Contract;
 
-interface ApplicationContract
+interface ApplicationInterface
 {
 	public function start();
 }

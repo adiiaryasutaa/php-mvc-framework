@@ -3,13 +3,13 @@
 namespace Ceceply\Framework\Routing;
 
 use Ceceply\Framework\Application;
-use Ceceply\Framework\Contract\Route\RouterContract;
+use Ceceply\Framework\Contract\Route\RouterInterface;
 use Ceceply\Framework\Request\Request;
 use Ceceply\Framework\Routing\Exception\ParameterHasSameName;
 use Ceceply\Framework\Routing\Exception\RouteNotFoundException;
 use Ceceply\Framework\View\View;
 
-class Router implements RouterContract
+class Router implements RouterInterface
 {
 	/**
 	 * The application

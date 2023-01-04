@@ -2,12 +2,12 @@
 
 namespace Ceceply\Framework;
 
-use Ceceply\Framework\Contract\ApplicationContract;
+use Ceceply\Framework\Contract\ApplicationInterface;
 use Ceceply\Framework\Request\Request;
 use Ceceply\Framework\Routing\Router;
 use Exception;
 
-class Application implements ApplicationContract
+class Application implements ApplicationInterface
 {
 	/**
 	 * The current request
