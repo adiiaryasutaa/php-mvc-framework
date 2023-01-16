@@ -12,9 +12,6 @@
   "minimum-stability": "dev",
   "prefer-stable": false,
   "autoload": {
-    "files": [
-      "src/Ceceply/Framework/Support/function.php"
-    ],
     "psr-4": {
       "Ceceply\\Framework\\": "src/Ceceply/Framework/"
     }
