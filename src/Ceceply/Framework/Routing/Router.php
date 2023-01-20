@@ -2,12 +2,13 @@
 
 namespace Ceceply\Framework\Routing;
 
-use Ceceply\Framework\Application;
 use Ceceply\Framework\Contract\Route\RouterInterface;
+use Ceceply\Framework\Foundation\Application;
 use Ceceply\Framework\Request\Request;
 use Ceceply\Framework\Routing\Exception\ParameterHasSameName;
 use Ceceply\Framework\Routing\Exception\RouteNotFoundException;
 use Ceceply\Framework\View\View;
+use Ceceply\Framework\View\ViewBuilder;
 
 class Router implements RouterInterface
 {
@@ -100,10 +101,10 @@ class Router implements RouterInterface
 	 *
 	 * @param string $method
 	 * @param string $uri
-	 * @return void
+	 * @return View
 	 * @throws RouteNotFoundException
 	 */
-	public function resolve(string $method, string $uri): void
+	public function resolve(string $method, string $uri): View
 	{
 		$route = $this->collection->get($method, $uri);
 
@@ -129,6 +130,6 @@ class Router implements RouterInterface
 		 * @var View $content
 		 */
 
-		$content->show();
+		return (new ViewBuilder($content))->build();
 	}
 }
