@@ -2,6 +2,7 @@
 
 namespace Ceceply\Framework\Foundation;
 
+use Ceceply\Framework\Config\Config;
 use Ceceply\Framework\Contract\ApplicationInterface;
 use Ceceply\Framework\ExceptionHandler;
 use Ceceply\Framework\Request\Request;
@@ -11,9 +12,40 @@ use Exception;
 
 class Application implements ApplicationInterface
 {
-	private string $baseUrl;
+	/**
+	 * The base path of project
+	 *
+	 * @var string
+	 */
+	protected string $basePath;
 
-	private string $urlPath;
+	/**
+	 * The base path of project config
+	 *
+	 * @var string
+	 */
+	protected string $configPath;
+
+	/**
+	 * The base path of project route
+	 *
+	 * @var string
+	 */
+	protected string $routePath;
+
+	/**
+	 * The application instance
+	 *
+	 * @var Application
+	 */
+	public static Application $application;
+
+	/**
+	 * The application config
+	 *
+	 * @var Config
+	 */
+	protected Config $config;
 
 	/**
 	 * The current request
@@ -27,18 +59,65 @@ class Application implements ApplicationInterface
 	 *
 	 * @var Router
 	 */
-	public Router $route;
+	public Router $router;
 
 	/**
 	 * Application constructor
+	 *
+	 * @param array $options
 	 */
-	public function __construct(string $baseUrl, string $urlPath)
+	public function __construct(array $options)
 	{
-		$this->baseUrl = $baseUrl;
-		$this->urlPath = $urlPath;
+		$this->readOptions($options);
 
+		self::$application = $this;
+
+		$this->config = new Config($this->loadConfigs());
 		$this->request = new Request();
-		$this->route = new Router($this, $this->request);
+		$this->router = new Router($this, $this->request);
+
+		$this->loadRoutes();
+	}
+
+	/**
+	 * Read the given of options
+	 *
+	 * @param array $options
+	 * @return void
+	 */
+	protected function readOptions(array $options): void
+	{
+		$this->basePath = $options['paths']['base'];
+		$this->configPath = $options['paths']['config'];
+		$this->routePath = $options['paths']['route'];
+	}
+
+	/**
+	 * Load project configs
+	 *
+	 * @return array
+	 */
+	protected function loadConfigs(): array
+	{
+		$configs = [];
+
+		foreach (glob("{$this->configPath}\\*.php") as $file) {
+			$configs[pathinfo($file, PATHINFO_FILENAME)] = require_once $file;
+		}
+
+		return $configs;
+	}
+
+	/**
+	 * Load project routes
+	 *
+	 * @return void
+	 */
+	protected function loadRoutes(): void
+	{
+		foreach (glob("{$this->routePath}\\*.php") as $file) {
+			require_once $file;
+		}
 	}
 
 	/**
@@ -62,40 +141,18 @@ class Application implements ApplicationInterface
 	 */
 	protected function handleRequest()
 	{
-		$content = $this->route->resolve($this->request->method(), $this->request->uri());
+		$content = $this->router->resolve($this->request->method(), $this->request->uri());
 
 		echo $content;
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getBaseUrl(): string
-	{
-		return $this->baseUrl;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getUrlPath(): string
-	{
-		return $this->urlPath;
-	}
-
-	/**
-	 * @return Request
-	 */
-	public function getRequest(): Request
-	{
-		return $this->request;
-	}
-
-	/**
+	 * Get application router
+	 *
 	 * @return Router
 	 */
-	public function getRoute(): Router
+	public function getRouter(): Router
 	{
-		return $this->route;
+		return $this->router;
 	}
 }
