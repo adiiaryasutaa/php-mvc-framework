@@ -18,7 +18,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Ceceply\\Test\\": "tests/Ceceply/Test"
+      "Ceceply\\Test\\": "tests/"
     }
   },
   "require-dev": {
