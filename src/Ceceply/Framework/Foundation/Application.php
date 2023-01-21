@@ -3,11 +3,13 @@
 namespace Ceceply\Framework\Foundation;
 
 use Ceceply\Framework\Config\Config;
+use Ceceply\Framework\Container\Container;
 use Ceceply\Framework\Contract\ApplicationInterface;
 use Ceceply\Framework\ExceptionHandler;
 use Ceceply\Framework\Request\Request;
 use Ceceply\Framework\Routing\Exception\RouteNotFoundException;
 use Ceceply\Framework\Routing\Router;
+use DirectoryIterator;
 use Exception;
 
 class Application implements ApplicationInterface
@@ -34,6 +36,20 @@ class Application implements ApplicationInterface
 	protected string $routePath;
 
 	/**
+	 * The list of controller paths
+	 *
+	 * @var array
+	 */
+	protected array $controllerPath;
+
+	/**
+	 * The list of controller namespaces
+	 *
+	 * @var array
+	 */
+	protected array $controllerNamespace;
+
+	/**
 	 * The application instance
 	 *
 	 * @var Application
@@ -46,6 +62,13 @@ class Application implements ApplicationInterface
 	 * @var Config
 	 */
 	protected Config $config;
+
+	/**
+	 * The application container
+	 *
+	 * @var Container
+	 */
+	public Container $container;
 
 	/**
 	 * The current request
@@ -73,9 +96,12 @@ class Application implements ApplicationInterface
 		self::$application = $this;
 
 		$this->config = new Config($this->loadConfigs());
+		$this->container = new Container();
 		$this->request = new Request();
 		$this->router = new Router($this, $this->request);
 
+		$this->registerToContainer();
+		$this->registerControllers();
 		$this->loadRoutes();
 	}
 
@@ -90,6 +116,8 @@ class Application implements ApplicationInterface
 		$this->basePath = $options['paths']['base'];
 		$this->configPath = $options['paths']['config'];
 		$this->routePath = $options['paths']['route'];
+		$this->controllerPath = $options['paths']['controller'];
+		$this->controllerNamespace = $options['namespaces']['controller'];
 	}
 
 	/**
@@ -106,6 +134,43 @@ class Application implements ApplicationInterface
 		}
 
 		return $configs;
+	}
+
+	/**
+	 * Register all application properties to container
+	 *
+	 * @return void
+	 */
+	protected function registerToContainer(): void
+	{
+		$this->container->add('app.config', function () {
+			return $this->config;
+		});
+
+		$this->container->add('app.request', function () {
+			return $this->request;
+		});
+
+		$this->container->add('app.router', function () {
+			return $this->router;
+		});
+	}
+
+	/**
+	 * Register all controllers
+	 *
+	 * @return void
+	 */
+	protected function registerControllers(): void
+	{
+		foreach ($this->controllerPath as $key => $path) {
+			foreach (new DirectoryIterator($path) as $file) {
+				if ($file->isFile()) {
+					$class = $this->controllerNamespace[$key] . $file->getBasename('.php');
+					$this->container->add($class);
+				}
+			}
+		}
 	}
 
 	/**
